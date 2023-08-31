@@ -1,16 +1,14 @@
-﻿using System.Net.Http.Headers;
-using System.Net;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using TaskExecutor.Models;
 
 namespace Worker.BusinessServices
 {
-    public class Test
+    public class MemeResponse
     {
         public string url { get; set; }
         public bool nsfw { get; set; }
     }
+
     public class WorkerBusinessService
     {
         private readonly string _allocatorUri;
@@ -43,7 +41,7 @@ namespace Worker.BusinessServices
                 if (response.IsSuccessStatusCode)
                 {
                     string json = await response.Content.ReadAsStringAsync();
-                    var memeData = JsonConvert.DeserializeObject<Test>(json);
+                    var memeData = JsonConvert.DeserializeObject<MemeResponse>(json);
                     if (memeData?.nsfw ?? true)
                     {
                         Console.WriteLine("Error: NSFW content not allowed.");
@@ -52,13 +50,7 @@ namespace Worker.BusinessServices
                     else
                     {
                         await DownloadMeme(memeData.url);
-                        await Task.Delay(20000);
-                        //Task.Run(async () =>
-                        //{
-                        //    await Task.Delay(1000);
-                            await UpdateTaskStatusAsync(task.Id.ToString(), true);
-                        //});
-                        
+                        await UpdateTaskStatusAsync(task.Id.ToString(), true);
                     }
                 }
                 else

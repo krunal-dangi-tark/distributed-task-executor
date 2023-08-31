@@ -3,10 +3,10 @@ using TaskExecutor.Storage;
 
 namespace TaskExecutor.BusinessServices
 {
-    public class TaskListner
+    public class TaskListener
     {
         private readonly TaskBusinessService _taskBusinessService;
-        public TaskListner(WebApplicationBuilder builder)
+        public TaskListener(WebApplicationBuilder builder)
         {
             var provider = builder.Services.BuildServiceProvider();
             _taskBusinessService = provider.GetRequiredService<TaskBusinessService>();
