@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TaskExecutor.BusinessServices;
 using TaskExecutor.Models;
 
 namespace TaskExecutor.Controllers
@@ -12,20 +8,33 @@ namespace TaskExecutor.Controllers
     [ApiController]
     public class NodesController : ControllerBase
     {
+        private NodeBusinessService _nodeBusinessService;
+
+        public NodesController(NodeBusinessService nodeBusinessService)
+        {
+            _nodeBusinessService = nodeBusinessService;
+        }
+
+        [HttpGet]
+        public List<Node> GetAllNodes() 
+        {
+            return _nodeBusinessService.GetAllNodes();
+        }
+
         [HttpPost]
         [Route("register")]
         public IActionResult RegisterNode([FromBody] NodeRegistrationRequest node)
         {
-            // TODO: Implement this method
-
+            _nodeBusinessService.RegisterNode(node);
             return Ok();
         }
-        
+
         [HttpDelete]
         [Route("unregister/{name}")]
-        public IActionResult RegisterNode(string name)
+        public IActionResult UnRegisterNode(string name)
         {
-            throw new NotImplementedException();
-        }
+            _nodeBusinessService.UnregisterNode(name);
+            return Ok();
+        }        
     }
 }

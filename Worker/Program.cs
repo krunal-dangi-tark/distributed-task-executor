@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Hosting;
 using Worker;
+using Worker.BusinessServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<WorkerRegistrar>();
+builder.Services.AddScoped<WorkerBusinessService>();
 builder.Services.AddSingleton<WorkerInfo>(provider => provider.GetRequiredService<WorkerRegistrar>().GetWorkerInfo());
 
 var app = builder.Build();
@@ -36,5 +39,5 @@ var registrar = provider.GetRequiredService<WorkerRegistrar>();
 await registrar.RegisterWorkerAsync();
 
 Console.WriteLine($"Worker started, listening on port: {worker.Port}. Memes will be saved at: {worker.WorkDir}");
-
 app.Run();
+

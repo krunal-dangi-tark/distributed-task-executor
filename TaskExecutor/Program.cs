@@ -1,6 +1,13 @@
+using TaskExecutor.BusinessServices;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<NodeBusinessService>();
+builder.Services.AddScoped<TaskBusinessService>();
+builder.Services.AddSingleton<TaskListner>(_ => new TaskListner(builder));
+var provider = builder.Services.BuildServiceProvider();
+var registrar = provider.GetRequiredService<TaskListner>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
