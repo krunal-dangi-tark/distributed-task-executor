@@ -27,7 +27,7 @@ namespace Worker.Controllers
 
         [HttpPost]
         [Route("unassigned-task")]
-        public IActionResult RegisterTask([FromBody] Work task) // [FromBody] NodeRegistrationRequest node
+        public IActionResult UnRegisterTask([FromBody] Work task) // [FromBody] NodeRegistrationRequest node
         {
             _ = _workerBusinessService.ExecuteTaskAsync(task);
             return Ok();
